@@ -1,6 +1,6 @@
 # Adapter and Facade Pattern
 
-# Adapter Pattern
+# 1. Adapter Pattern
 Convert the interface of class into another interface the clients expects.
 
 1. Class Adapter
@@ -96,4 +96,75 @@ public static void main(String[] args) {
 
 
     }
+```
+
+# 2. Facade Pattern
+
+Provide unified interface to a set interfaces in subsystem. Facade define higher level interface to make easier to use
+
+```
+public class Lights {
+    public void on(){
+        System.out.println("turnOff");
+    }
+
+    public void off(){
+        System.out.println("turnOff");
+    }
+
+    public void dim(int count){
+        System.out.println("dim"+count);
+    }
+}
+```
+
+```
+public class Projector {
+    public void on(){
+        System.out.println("on");
+    }
+
+    public void off(){
+        System.out.println("off");
+    }
+
+    public void wideScreen(boolean wideScreen){
+        System.out.println("display "+ (wideScreen?"wide screen":"normal") );
+    }
+}
+```
+
+```
+public class RoomFacade {
+    private Projector projector;
+
+    private Lights lights;
+
+    public RoomFacade(Projector projector, Lights lights) {
+        this.projector = projector;
+        this.lights = lights;
+    }
+
+    public void displayProjector(boolean wideScreen){
+        projector.on();
+        projector.wideScreen(wideScreen);
+    }
+
+    public void dimLighning(int dim){
+        lights.on();
+        lights.dim(dim);
+    }
+}
+```
+
+```
+public static void main(String[] args){
+	Projector projector = new Projector();
+	Lights lights = new Lights();
+
+	RoomFacade roomFacade = new RoomFacade(projector, lights);
+
+	roomFacade.dimLighning(10);
+	roomFacade.displayProjector(true);
+}
 ```
